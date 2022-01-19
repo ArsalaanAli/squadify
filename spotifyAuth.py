@@ -12,3 +12,5 @@ def GetAuthManager():
     return AUTH_MANAGER
 def GetAuthURL(AUTH_MANAGER: spotipy.oauth2.SpotifyOAuth):
     return AUTH_MANAGER.get_authorize_url()
+def GetAccessToken(code):
+    return
