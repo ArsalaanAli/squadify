@@ -41,6 +41,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setUserData(data["userData"]);
+        console.log(userData);
       });
   };
 

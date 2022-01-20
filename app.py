@@ -19,14 +19,10 @@ def HandleCodeRequest():
     session["oAuthCode"] = recievedCode["code"]
     return {"done": "done"}
 
-
 @app.route('/api/getSpotifyData')
 def GetSpotifyData():
-    AUTH_MANAGER = spotifyAuth.GetAuthManager()
-    AUTH_MANAGER.get_access_token(session["oAuthCode"])
-    spotify = spotipy.Spotify(auth_manager=AUTH_MANAGER)
-    userData = spotify.current_user_top_artists(limit=20)
-    print(spotify.current_user())
-    session["topArtists"] = userData["items"]
-    print(userData["items"])
-    return {"userData": userData}
+    if not session.get("topArtists"):
+        userData = spotifyAuth.GetTopArtists(session["oAuthCode"])
+        session["topArtists"] = {"userData": userData}
+        return {"userData": userData}
+    return session["topArtists"]

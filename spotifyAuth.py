@@ -12,5 +12,8 @@ def GetAuthManager():
     return AUTH_MANAGER
 def GetAuthURL(AUTH_MANAGER: spotipy.oauth2.SpotifyOAuth):
     return AUTH_MANAGER.get_authorize_url()
-def GetAccessToken(code):
-    return
+def GetTopArtists(oAuthCode):
+    AUTH_MANAGER = GetAuthManager()
+    AUTH_MANAGER.get_access_token(code=oAuthCode, check_cache=False)
+    spotify = spotipy.Spotify(auth_manager=AUTH_MANAGER)
+    return spotify.current_user_top_artists(limit=20)
