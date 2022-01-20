@@ -16,7 +16,6 @@ def GetAuthURL():
 @app.route('/api/sendCode', methods=["POST"])
 def HandleCodeRequest():
     recievedCode = request.get_json()
-    print(recievedCode)
     session["oAuthCode"] = recievedCode["code"]
     return {"done": "done"}
 
@@ -27,5 +26,7 @@ def GetSpotifyData():
     AUTH_MANAGER.get_access_token(session["oAuthCode"])
     spotify = spotipy.Spotify(auth_manager=AUTH_MANAGER)
     userData = spotify.current_user_top_artists(limit=20)
-    print(userData["userData"]["items"])
+    print(spotify.current_user())
+    session["topArtists"] = userData["items"]
+    print(userData["items"])
     return {"userData": userData}

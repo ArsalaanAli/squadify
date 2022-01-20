@@ -5,8 +5,10 @@ import React, { useEffect, useState } from "react";
 
 function App() {
   //Variables
+  const dataGot = false;
   const [code, setCode] = useState(null);
   const [redirectURL, setRedirectURL] = useState("");
+  const [userData, setUserData] = useState(null);
 
   //Checking if code in url params
   useEffect(() => {
@@ -38,7 +40,7 @@ function App() {
     await fetch("/api/getSpotifyData")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["userData"]);
+        setUserData(data["userData"]);
       });
   };
 
@@ -59,7 +61,7 @@ function App() {
   }
 
   //if there is a code, finished
-  if (typeof code === "string") {
+  else if (typeof code === "string" && userData === null) {
     sendCode();
     console.log("done");
     return (
@@ -72,6 +74,24 @@ function App() {
         >
           Get Spotify Data
         </button>
+      </div>
+    );
+  } else {
+    const rows = [];
+    for (var i = 0; i < userData["items"].length; i++) {
+      console.log(i);
+      rows.push(userData["items"][i].name);
+      console.log(userData["items"][i].name);
+    }
+    console.log(userData["items"][0].name); //USER DATA IS UNDEFINED OBJECTS?
+    return (
+      <div>
+        <h2>your top artists</h2>
+        {userData["items"].map((artist, index) => (
+          <p>
+            {index + 1} {artist.name}
+          </p>
+        ))}
       </div>
     );
   }
