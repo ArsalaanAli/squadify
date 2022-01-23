@@ -2,6 +2,10 @@
 # Logs
 .env
 
+#python
+firebase-sdk.json
+
+
 logs
 *.log
 npm-debug.log*

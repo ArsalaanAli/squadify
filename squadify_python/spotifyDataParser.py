@@ -8,4 +8,25 @@ name : Aries
 popularity : 68
 uri : spotify:artist:3hOdow4ZPmrby7Q1wfPLEy - takes you to artists page in spotify app
 '''
-
+#pretentious hipster : lowest popularity
+#basic bitch : highest popularity
+#emo : most sad genres
+#k-pop stan : most kpop artists
+#weeb : most japanese artists
+def GetSquadifyValues(spotifyData: list):
+    sadness = 0
+    kpop = 0
+    weeb = 0
+    popularity = 0
+    for artist in spotifyData:
+        print(artist["name"])
+        for genre in artist["genres"]:
+            genreWords = genre.split()
+            if genre == "slowed and reverb" or any(x in genreWords for x in ['emo', 'sad']):
+                sadness+=1
+            if any(x in genreWords for x in ['k-pop', 'korean']):
+                kpop+=1
+            if any(x in genreWords for x in ['j-pop', 'japanese', "anime"]):
+                weeb+=1
+        popularity += artist["popularity"]
+    return [popularity, sadness, kpop, weeb]
