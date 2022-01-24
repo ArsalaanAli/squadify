@@ -7,8 +7,8 @@ import random
 cred = credentials.Certificate('firebase-sdk.json')
 firebase_admin.initialize_app(cred, {"databaseURL" : "https://squadify-137d7-default-rtdb.firebaseio.com"})
 
-roomsDB = db.reference("/Rooms")
-allRoomsData = roomsDB.get(shallow=True)
+#roomsDB = db.reference("/Rooms")
+#allRoomsData = roomsDB.get(shallow=True)
  
 #BEFORE ROOM FOUND 
 def GenerateRoomCode():
@@ -19,23 +19,24 @@ def CreateNewRoom(roomsDB, allRoomsData):
         newRoomCode = GenerateRoomCode()
         if newRoomCode not in allRoomsData:
             roomsDB.update({newRoomCode : True})
-            break
+            return newRoomCode
+
 def CheckRoomExists(roomCode, allRoomsData):
     return roomCode in allRoomsData
 
 #AFTER ROOM FOUND
-currentRoomCode = "Code"
-currentRoomDB = db.reference("/Rooms/"+currentRoomCode)
-currentRoomData = currentRoomDB.get()
-print(currentRoomData)
+#urrentRoomCode = "Code"
+#currentRoomDB = db.reference("/Rooms/"+currentRoomCode)
+#currentRoomData = currentRoomDB.get()
+#print(currentRoomData)
 def AddMemberToRoom(memberName, roomCode, currentRoomDB, currentRoomData):
     if memberName in currentRoomData:
         return False
     currentRoomDB.set({memberName : "ASDF"})
     return True
 
-CreateNewRoom(roomsDB, allRoomsData)
-AddMemberToRoom("Arsalaan", currentRoomCode, currentRoomDB, currentRoomData)
+#CreateNewRoom(roomsDB, allRoomsData)
+#AddMemberToRoom("Arsalaan", currentRoomCode, currentRoomDB, currentRoomData)
 
 '''
 Rooms = db.reference("/Rooms")

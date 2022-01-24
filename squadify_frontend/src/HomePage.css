@@ -9,9 +9,8 @@ section {
   padding: 100px 20vw;
 }
 .title {
-  position: sticky;
   font-size: 250%;
-  align-items: center;
+  text-align: center;
 }
 .blue {
   background: linear-gradient(

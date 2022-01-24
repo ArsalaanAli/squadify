@@ -2,7 +2,10 @@ from flask import Flask, session, request
 import os
 import spotipy
 import spotifyAuth
+import FirebaseFunctions
 import random
+import firebase_admin
+from firebase_admin import db
 app =  Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -29,3 +32,12 @@ def GetSpotifyData():
         session["topArtists"] = {"userData": userData}
         return {"userData": userData}
     return session["topArtists"]
+
+
+@app.route('/api/createRoom')
+def CreateRoom():
+    roomsDB = db.reference("/Rooms")
+    if not session.get("RoomsData"):
+        session["RoomsData"] = roomsDB.get(shallow=True)
+    NewCode = FirebaseFunctions.CreateNewRoom(roomsDB, session["RoomsData"])
+    return {"RoomCode" : NewCode}
