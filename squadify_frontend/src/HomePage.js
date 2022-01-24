@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function HomePage() {
   const [roomCode, setRoomCode] = useState("NONE");
+  let navigate = useNavigate();
   const GetNewRoomCode = async () => {
-    await fetch("api/createRoom")
-      .then((resp) => resp.json())
-      .then((resp) => setRoomCode("Room/" + resp["RoomCode"]));
+    if (roomCode === "NONE") {
+      await fetch("api/createRoom")
+        .then((resp) => resp.json())
+        .then((resp) => setRoomCode("Room/" + resp["RoomCode"]));
+    }
   };
-  useEffect(async () => {
-    console.log(roomCode);
-    return <Link to={roomCode}></Link>; //FIGURE OUT HOW TO LINK TO ROOMCODE
-  }, [roomCode]);
+  useEffect(() => {
+    if (roomCode !== "NONE") {
+      navigate(roomCode);
+    }
+  }, [roomCode, navigate]);
 
   return (
     <div>
@@ -26,10 +30,6 @@ function HomePage() {
         <button>Join Room</button>
       </section>
       <section className="red">
-        <h1>Title</h1>
-        <p>random text</p>
-      </section>
-      <section className="yellow">
         <h1>Title</h1>
         <p>random text</p>
       </section>

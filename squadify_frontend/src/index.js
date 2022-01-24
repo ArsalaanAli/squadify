@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import HomePage from "./HomePage";
 import reportWebVitals from "./reportWebVitals";
+import RoomPage from "./RoomPage";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <HomePage />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/Room" element={<RoomPage />}>
+          <Route path=":RoomCode" element={<RoomPage />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
