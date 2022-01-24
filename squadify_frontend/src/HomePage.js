@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./HomePage.css";
+import { Link } from "react-router-dom";
 function HomePage() {
-  // useEffect(async () => {
-  // await fetch("api/initialize").then((resp) => console.log(resp.json()));
-  // }, []);
-
+  const [roomCode, setRoomCode] = useState("NONE");
   const GetNewRoomCode = async () => {
     await fetch("api/createRoom")
       .then((resp) => resp.json())
-      .then((resp) => console.log(resp));
+      .then((resp) => setRoomCode("Room/" + resp["RoomCode"]));
   };
+  useEffect(async () => {
+    console.log(roomCode);
+    return <Link to={roomCode}></Link>; //FIGURE OUT HOW TO LINK TO ROOMCODE
+  }, [roomCode]);
 
   return (
     <div>
@@ -19,11 +21,8 @@ function HomePage() {
         <button
           onClick={async () => {
             await GetNewRoomCode();
-            console.log("hi");
           }}
-        >
-          Create Room
-        </button>
+        ></button>
         <button>Join Room</button>
       </section>
       <section className="red">
