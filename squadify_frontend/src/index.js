@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
-import App from "./App";
+import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
 import reportWebVitals from "./reportWebVitals";
 import RoomPage from "./RoomPage";
@@ -15,6 +15,7 @@ ReactDOM.render(
         <Route path="/Room" element={<RoomPage />}>
           <Route path=":RoomCode" element={<RoomPage />} />
         </Route>
+        <Route path="/Login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

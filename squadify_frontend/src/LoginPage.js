@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 // import FrontPage from "./Pages/FrontPage";
 
 // redirect code: window.location.href = "https://google.com/contact";
 
-function App() {
+function LoginPage(props) {
   //Variables
+  const Data = useLocation();
   const dataGot = false;
   const [code, setCode] = useState(null);
   const [redirectURL, setRedirectURL] = useState("");
@@ -98,4 +100,4 @@ function App() {
   }
 }
 
-export default App;
+export default LoginPage;
