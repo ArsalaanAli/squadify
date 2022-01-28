@@ -34,7 +34,6 @@ def AddMemberToRoom(memberName, roomCode, currentRoomDB, currentRoomData):
         return False
     currentRoomDB.set({memberName : "ASDF"})
     return True
-
 #CreateNewRoom(roomsDB, allRoomsData)
 #AddMemberToRoom("Arsalaan", currentRoomCode, currentRoomDB, currentRoomData)
 

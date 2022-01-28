@@ -41,3 +41,10 @@ def CreateRoom():
         session["RoomsData"] = roomsDB.get(shallow=True)
     NewCode = FirebaseFunctions.CreateNewRoom(roomsDB, session["RoomsData"])
     return {"RoomCode" : NewCode}
+
+@app.route('/api/getMembers', methods=["POST"])
+def GetMembers():
+    recievedCode = request.get_json()
+    data = db.reference("/Rooms/" + recievedCode["RoomCode"] + "/Members").get()
+    print(data)
+    return {"memberData" : data}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./HomePage.css";
 import { Link, useNavigate } from "react-router-dom";
 function HomePage() {
@@ -8,14 +8,14 @@ function HomePage() {
     if (roomCode === "NONE") {
       await fetch("api/createRoom")
         .then((resp) => resp.json())
-        .then((resp) => setRoomCode("Room/" + resp["RoomCode"]));
+        .then((resp) => setRoomCode(resp["RoomCode"]));
     }
   };
-  useEffect(() => {
-    if (roomCode !== "NONE") {
-      navigate(roomCode);
+  const NavigateToRoom = () => {
+    if (roomCode === "Test" || roomCode.length == 6) {
+      navigate("Room/" + roomCode);
     }
-  }, [roomCode, navigate]);
+  };
 
   return (
     <div>
@@ -26,8 +26,15 @@ function HomePage() {
           onClick={async () => {
             await GetNewRoomCode();
           }}
-        ></button>
-        <button>Join Room</button>
+        >
+          Create Room
+        </button>
+        <input
+          type="text"
+          placeholder="Room Code"
+          onChange={(e) => setRoomCode(e.target.value)}
+        />
+        <button onClick={() => NavigateToRoom()}>Join Room</button>
       </section>
       <section className="red">
         <h1>Title</h1>
