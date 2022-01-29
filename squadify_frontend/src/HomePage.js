@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./HomePage.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function HomePage() {
   const [roomCode, setRoomCode] = useState("NONE");
   let navigate = useNavigate();
@@ -11,8 +11,15 @@ function HomePage() {
         .then((resp) => setRoomCode(resp["RoomCode"]));
     }
   };
+
+  useEffect(() => {
+    const SpotifyCode = new URL(window.location.href).searchParams.get("code");
+
+    console.log(SpotifyCode);
+  }, []);
+
   const NavigateToRoom = () => {
-    if (roomCode === "Test" || roomCode.length == 6) {
+    if (roomCode === "Test" || roomCode.length === 6) {
       navigate("Room/" + roomCode);
     }
   };
