@@ -3,19 +3,40 @@ import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 function HomePage() {
   const [roomCode, setRoomCode] = useState("NONE");
+  const [loggedIn, setLoggedIn] = useState(null);
+
   let navigate = useNavigate();
   const GetNewRoomCode = async () => {
     if (roomCode === "NONE") {
       await fetch("api/createRoom")
         .then((resp) => resp.json())
-        .then((resp) => setRoomCode(resp["RoomCode"]));
+        .then((resp) => navigate("Room/" + resp["RoomCode"]));
     }
   };
 
-  useEffect(() => {
-    const SpotifyCode = new URL(window.location.href).searchParams.get("code");
+  const sendCode = async (code) => {
+    await fetch("/api/sendCode", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code: code }),
+    }).then((resp) => console.log(resp.json()));
+  };
 
-    console.log(SpotifyCode);
+  const checkLoggedIn = async () => {
+    await fetch("/api/checkLoggedIn")
+      .then((resp) => resp.json())
+      .then((resp) => setLoggedIn(resp["state"]));
+  };
+
+  useEffect(() => {
+    const spotifyCode = new URL(window.location.href).searchParams.get("code");
+    if (spotifyCode === null) {
+      checkLoggedIn();
+    } else {
+      sendCode(spotifyCode);
+    }
   }, []);
 
   const NavigateToRoom = () => {
@@ -23,7 +44,6 @@ function HomePage() {
       navigate("Room/" + roomCode);
     }
   };
-
   return (
     <div>
       <h1 className="title">HomePage</h1>

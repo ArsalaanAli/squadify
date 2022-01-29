@@ -25,6 +25,11 @@ def HandleCodeRequest():
     session["oAuthCode"] = recievedCode["code"]
     return {"done": "done"}
 
+@app.route('/api/checkLoggedIn')
+def LoggedIn():
+    if session.get("oAuthCode"):
+        return {"state": True}
+    return {"state": False}
 @app.route('/api/getSpotifyData')
 def GetSpotifyData():
     if not session.get("topArtists"):

@@ -4,8 +4,15 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 export default function RoomPage() {
   let params = useParams();
   const [memberData, setMemberData] = useState("");
+  const [loggedIn, setLoggedIn] = useState(null);
   const navigate = useNavigate();
-  const locationData = useLocation();
+
+  const checkLoggedIn = async () => {
+    await fetch("/api/checkLoggedIn")
+      .then((resp) => resp.json())
+      .then((resp) => setLoggedIn(resp["state"]));
+  };
+
   const SendToLogin = (code) => {
     navigate("/Login");
     //navigate("/Login", { state: { roomCode: code } }
@@ -30,29 +37,27 @@ export default function RoomPage() {
         })
       );
     }
+    checkLoggedIn();
   }, []);
 
   //render conditions
-  const memberDataDisplayed =
-    memberData === "" ? (
-      <h2>loading data...</h2>
-    ) : (
-      <h2>{JSON.stringify(memberData)}</h2>
-    );
-
-  const addMemberButton =
-    locationData.state.SpotifyCode === null ? (
-      <button onClick={() => SendToLogin()}>Login</button>
-    ) : (
-      <button onClick={() => LoadMemberData()}>Add Your Data</button>
-    );
-
+  const memberDataDisplayed = (memberData) => {
+    if (memberData === "") {
+      return <h2>loading data...</h2>;
+    }
+    return <h2>{JSON.stringify(memberData)}</h2>;
+  };
+  const addMemberButton = (loggedIn) => {
+    if (loggedIn) {
+      return <button onClick={() => LoadMemberData()}>Add Your Data</button>;
+    }
+    return <button onClick={() => SendToLogin()}>Login</button>;
+  };
   return (
     <div>
       <h1>Room: {params.RoomCode}</h1>
-      {/* <h2>loading data...</h2> */}
-      {memberDataDisplayed}
-      {addMemberButton}
+      {memberDataDisplayed(memberData)}
+      {addMemberButton(loggedIn)}
     </div>
   );
 }
