@@ -23,6 +23,7 @@ def GetAuthURL():
 def HandleCodeRequest():
     recievedCode = request.get_json()
     session["oAuthCode"] = recievedCode["code"]
+    spotifyAuth.GetSpotifyToken(session["oAuthCode"])
     return {"done": "done"}
 
 @app.route('/api/checkLoggedIn')
@@ -30,12 +31,26 @@ def LoggedIn():
     if session.get("oAuthCode"):
         return {"state": True}
     return {"state": False}
+
+@app.route('/api/getUserData')
+def GetUserData():
+    if not session.get("userData"):
+        userData = spotifyAuth.GetUserData()
+        print(userData)
+        session["userData"] = {"userData" : userData}
+        return {"userData": userData}
+    return session["userData"]
+
 @app.route('/api/getSpotifyData')
 def GetSpotifyData():
+    print("1")
     if not session.get("topArtists"):
-        userData = spotifyAuth.GetTopArtists(session["oAuthCode"])
-        session["topArtists"] = {"userData": userData}
-        return {"userData": userData}
+        print("2")
+        userData = spotifyAuth.GetTopArtists()
+        print(userData)
+        session["topArtists"] = {"spotifyData": userData}
+        return {"spotifyData": userData}
+    print("3")
     return session["topArtists"]
 
 
@@ -47,9 +62,9 @@ def CreateRoom():
     NewCode = FirebaseFunctions.CreateNewRoom(roomsDB, session["RoomsData"])
     return {"RoomCode" : NewCode}
 
-@app.route('/api/getMembers', methods=["POST"])
+@app.route('/api/getRoomData', methods=["POST"])
 def GetMembers():
     recievedCode = request.get_json()
-    data = db.reference("/Rooms/" + recievedCode["RoomCode"] + "/Members").get()
+    data = db.reference("/Rooms/" + recievedCode["RoomCode"]).get()
     print(data)
-    return {"memberData" : data}
+    return {"roomData" : data}

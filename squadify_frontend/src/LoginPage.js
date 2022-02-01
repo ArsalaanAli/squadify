@@ -34,15 +34,6 @@ function LoginPage(props) {
     }).then((resp) => console.log(resp.json()));
   };
 
-  const GetSpotifyData = async () => {
-    await fetch("/api/getSpotifyData")
-      .then((response) => response.json())
-      .then((data) => {
-        setUserData(data["userData"]);
-        console.log(userData);
-      });
-  };
-
   //If there is not code, present login
   if (code == null) {
     return (
@@ -65,14 +56,7 @@ function LoginPage(props) {
     console.log("done");
     return (
       <div>
-        <button
-          type="button"
-          onClick={async () => {
-            await GetSpotifyData();
-          }}
-        >
-          Get Spotify Data
-        </button>
+        <button type="button">Get Spotify Data</button>
       </div>
     );
   } else {
