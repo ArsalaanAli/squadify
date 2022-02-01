@@ -29,13 +29,16 @@ def CheckRoomExists(roomCode, allRoomsData):
 #currentRoomDB = db.reference("/Rooms/"+currentRoomCode)
 #currentRoomData = currentRoomDB.get()
 #print(currentRoomData)
-def AddMemberToRoom(memberName, roomCode, currentRoomDB, currentRoomData):
-    if memberName in currentRoomData:
-        return False
-    currentRoomDB.set({memberName : "ASDF"})
+def AddUserToRoom(userData, currentRoomMemberData, currentRoomMemberId):
+    currentRoomMemberData.update({userData["userData"]["display_name"] : userData["spotifyData"]})#DATA CANT PARSE??
+    currentRoomMemberId.update({userData["userData"]["id"] : userData["userData"]["display_name"]})
     return True
 #CreateNewRoom(roomsDB, allRoomsData)
 #AddMemberToRoom("Arsalaan", currentRoomCode, currentRoomDB, currentRoomData)
+
+currentRoomMemberData = db.reference("/Rooms/Test/MemberData")
+currentRoomId = db.reference("/Rooms/Test/MemberId")
+
 
 '''
 Rooms = db.reference("/Rooms")

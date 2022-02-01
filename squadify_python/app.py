@@ -36,23 +36,27 @@ def LoggedIn():
 def GetUserData():
     if not session.get("userData"):
         userData = spotifyAuth.GetUserData()
-        print(userData)
         session["userData"] = {"userData" : userData}
         return {"userData": userData}
     return session["userData"]
 
+@app.route('/api/sendUserDataToDatabase', methods=["POST"])
+def sendDataToDatabase():
+    print("starts")
+    userData = request.get_json()
+    print(userData)
+    currentRoomMemberData = db.reference("/Rooms/" + userData["roomCode"] + "/MemberData")
+    currentRoomMemberId = db.reference("/Rooms/" + userData["roomCode"] + "/MemberId")
+    FirebaseFunctions.AddUserToRoom(userData=userData, currentRoomMemberData=currentRoomMemberData, currentRoomMemberId=currentRoomMemberId)
+    return {"done" : "done"}
+
 @app.route('/api/getSpotifyData')
 def GetSpotifyData():
-    print("1")
     if not session.get("topArtists"):
-        print("2")
         userData = spotifyAuth.GetTopArtists()
-        print(userData)
         session["topArtists"] = {"spotifyData": userData}
         return {"spotifyData": userData}
-    print("3")
     return session["topArtists"]
-
 
 @app.route('/api/createRoom')
 def CreateRoom():
@@ -66,5 +70,4 @@ def CreateRoom():
 def GetMembers():
     recievedCode = request.get_json()
     data = db.reference("/Rooms/" + recievedCode["RoomCode"]).get()
-    print(data)
     return {"roomData" : data}
