@@ -112,7 +112,17 @@ export default function RoomPage() {
   };
   const addMemberButton = (userDataInRoom) => {
     if (userDataInRoom) {
-      return <button>Your Data Is Already Here</button>;
+      return (
+        <button
+          onClick={() => {
+            navigate("/Results/" + params.RoomCode, {
+              state: { roomData: roomData },
+            });
+          }}
+        >
+          Your Data Is Already Here
+        </button>
+      );
     }
     return (
       <button

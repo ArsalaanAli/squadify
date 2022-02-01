@@ -2,6 +2,7 @@ from flask import Flask, session, request
 import os
 import spotipy
 import spotifyAuth
+import spotifyDataParser
 import FirebaseFunctions
 import random
 import firebase_admin
@@ -42,9 +43,7 @@ def GetUserData():
 
 @app.route('/api/sendUserDataToDatabase', methods=["POST"])
 def sendDataToDatabase():
-    print("starts")
     userData = request.get_json()
-    print(userData)
     currentRoomMemberData = db.reference("/Rooms/" + userData["roomCode"] + "/MemberData")
     currentRoomMemberId = db.reference("/Rooms/" + userData["roomCode"] + "/MemberId")
     FirebaseFunctions.AddUserToRoom(userData=userData, currentRoomMemberData=currentRoomMemberData, currentRoomMemberId=currentRoomMemberId)
@@ -71,3 +70,11 @@ def GetMembers():
     recievedCode = request.get_json()
     data = db.reference("/Rooms/" + recievedCode["RoomCode"]).get()
     return {"roomData" : data}
+
+@app.route('/api/analyzeRoomData', methods=["POST"])
+def AnalyzeRoomData():
+    roomData = request.get_json()
+    print(roomData["roomData"])
+    spotifyDataParser.ParseRoomData(roomData["roomData"])
+    return {"urmom" : "gay"}
+

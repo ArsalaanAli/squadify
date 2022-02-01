@@ -6,6 +6,7 @@ import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
 import reportWebVitals from "./reportWebVitals";
 import RoomPage from "./RoomPage";
+import ResultsPage from "./ResultsPage";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,6 +17,9 @@ ReactDOM.render(
           <Route path=":RoomCode" element={<RoomPage />} />
         </Route>
         <Route path="/Login" element={<LoginPage />} />
+        <Route path="/Results" element={<ResultsPage />}>
+          <Route path=":RoomCode" element={<ResultsPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
