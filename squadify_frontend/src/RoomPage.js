@@ -120,7 +120,7 @@ export default function RoomPage() {
             });
           }}
         >
-          Your Data Is Already Here
+          View Squadify Results
         </button>
       );
     }

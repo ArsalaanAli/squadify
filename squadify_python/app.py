@@ -74,7 +74,5 @@ def GetMembers():
 @app.route('/api/analyzeRoomData', methods=["POST"])
 def AnalyzeRoomData():
     roomData = request.get_json()
-    print(roomData["roomData"])
-    spotifyDataParser.ParseRoomData(roomData["roomData"])
-    return {"urmom" : "gay"}
-
+    parsedData = spotifyDataParser.ParseRoomData(roomData["roomData"])
+    return parsedData
