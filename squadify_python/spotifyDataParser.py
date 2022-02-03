@@ -18,17 +18,17 @@ class ImmutableValue():
         self.value+=1
 
 
-#pretentious hipster : lowest popularity
-#basic bitch : highest popularity
-#emo : most sad genres
-#k-pop stan : most kpop artists
-#weeb : most japanese artists
-#country:   
-#dubstep/electro:
-#rap:
-#indie/bedroom : 
-#pop/hiphop :
-#classical nut:
+#pretentious hipster : lowest popularity - 1
+#basic bitch : highest popularity - 2
+#emo : most sad genres - 3
+#k-pop stan : most kpop artists - 4
+#weeb : most japanese artists - 5
+#country:  - 6
+#dubstep/electro: - 7
+#rap: - 8
+#indie/bedroom : - 9
+#pop/hiphop : - 10
+#classical nut: - 11
 
 def GetSquadifyValues(spotifyData: list):
     global genreDict
@@ -65,12 +65,22 @@ def GetSquadifyValues(spotifyData: list):
 
 
 def ParseRoomData(roomData: dict):
-    results = {}
+    userValues = []
+    results = dict.fromkeys(["sadness", "kpop", "weeb", "country", "electro", "rap", "pop", "indie", "classical"], ("none", 0))
+    results["highestPop"] = ("none", -1)
+    results["lowestPop"] = ("none", 100000)
+    possibleGenres = ["sadness", "kpop", "weeb", "country", "electro", "rap", "pop", "indie", "classical"]
     for user in roomData.keys():
-        results[user] = GetSquadifyValues(roomData[user]["items"])
-    print(results)
+        userValues.append((user, GetSquadifyValues(roomData[user]["items"])))
+    for user in userValues:
+        for genre in range(len(possibleGenres)):
+            if user[1][genre+1] > results[possibleGenres[genre]][1]:
+                results[possibleGenres[genre]] = (user[0], user[1][genre+1])
+        if user[1][0] > results["highestPop"][1]:
+            results["highestPop"] = (user[0], user[1][0])
+        if user[1][0] < results["lowestPop"][1]:
+            results["lowestPop"] = (user[0], user[1][0])
     return results
-
 
 
 '''

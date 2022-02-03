@@ -14,18 +14,37 @@ function ResultsPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ roomData: roomData }),
-      }).then((response) => setParsedData(response.json()));
+      })
+        .then((response) => response.json())
+        .then((resp) => setParsedData(resp));
     }
   }, []);
 
   useEffect(() => {
-    if (!(parsedData === "")) console.log(parsedData);
+    if (!(parsedData === "")) {
+      console.log(parsedData);
+      for (const [key, value] of Object.entries(parsedData)) {
+        if (value[0] === "none") {
+          delete parsedData[key]; //WONT UPDATE IMMEDIATELY
+        }
+      }
+    }
   }, [parsedData]);
 
+  const DisplayData = () => {
+    return (
+      <ul>
+        {Object.keys(parsedData).map((genre, i) => (
+          <p key={i}>{genre}</p>
+        ))}
+      </ul>
+    );
+  };
   return (
     <div>
-      <p>Results Page</p>
+      <p>Results Pge</p>
       <p>{params.RoomCode}</p>
+      {DisplayData()}
     </div>
   );
 }
