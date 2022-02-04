@@ -1,8 +1,10 @@
 import { React, useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import ComposeResults from "./ComposeResults";
 
 function ResultsPage() {
   const [parsedData, setParsedData] = useState("");
+  const [showResults, setShowResults] = useState(false);
   const roomData = useLocation().state.roomData.MemberData;
   let params = useParams();
 
@@ -22,7 +24,6 @@ function ResultsPage() {
 
   useEffect(() => {
     if (!(parsedData === "")) {
-      console.log(parsedData);
       for (const [key, value] of Object.entries(parsedData)) {
         if (value[0] === "none") {
           delete parsedData[key]; //WONT UPDATE IMMEDIATELY
@@ -32,18 +33,24 @@ function ResultsPage() {
   }, [parsedData]);
 
   const DisplayData = () => {
+    if (showResults) {
+      return <div>{ComposeResults(parsedData)}</div>;
+    }
     return (
-      <ul>
-        {Object.keys(parsedData).map((genre, i) => (
-          <p key={i}>{genre}</p>
-        ))}
-      </ul>
+      <button
+        onClick={() => {
+          setShowResults(true);
+        }}
+      >
+        Show Results
+      </button>
     );
   };
   return (
     <div>
-      <p>Results Pge</p>
+      <p>Results Page</p>
       <p>{params.RoomCode}</p>
+
       {DisplayData()}
     </div>
   );
