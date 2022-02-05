@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Nunito:ital,wght@1,200&display=swap");
+
 section {
   font-family: "Inter", sans-serif;
   position: relative;
@@ -11,6 +12,7 @@ section {
 .title {
   font-size: 250%;
   text-align: center;
+  color: #fff;
 }
 .blue {
   background: linear-gradient(
@@ -30,4 +32,19 @@ section {
 
 .orange {
   background: rgb(0, 0, 0);
+}
+
+.spacer {
+  aspect-ratio: 960/300;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.layer1 {
+  background-image: url("./assets/layered-waves-haikei2.svg");
+}
+.layer2 {
+  background-image: url("./assets/layered-waves-haikei.svg");
 }

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./HomePage.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function HomePage() {
   const [roomCode, setRoomCode] = useState("NONE");
-  const [loggedIn, setLoggedIn] = useState(null);
+  const [loggedIn, setLoggedIn] = useState("asd");
 
   let navigate = useNavigate();
-  let location = useLocation();
 
   const GetNewRoomCode = async () => {
     if (roomCode === "NONE") {
@@ -23,13 +22,14 @@ function HomePage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ code: code }),
-    }).then((resp) => console.log(resp.json()));
+    });
   };
 
-  const checkLoggedIn = async () => {
-    await fetch("/api/checkLoggedIn")
+  const checkLoggedIn = () => {
+    fetch("/api/checkLoggedIn")
       .then((resp) => resp.json())
-      .then((resp) => setLoggedIn(resp["state"]));
+      .then((resp) => resp["state"])
+      .then((resp) => setLoggedIn(resp));
   };
 
   const SendToLogin = (code) => {
@@ -38,7 +38,6 @@ function HomePage() {
   };
 
   useEffect(() => {
-    console.log("hello");
     const spotifyCode = new URL(window.location.href).searchParams.get("code");
     if (spotifyCode === null) {
       checkLoggedIn();
@@ -46,7 +45,7 @@ function HomePage() {
       sendCode(spotifyCode);
       navigate("/");
     }
-  }, [location]);
+  }, [loggedIn]);
 
   const NavigateToRoom = () => {
     if (roomCode === "Test" || roomCode.length === 6) {
@@ -54,7 +53,8 @@ function HomePage() {
     }
   };
 
-  const CreateRoomButton = (loggedIn) => {
+  const CreateRoomButton = () => {
+    console.log(loggedIn);
     if (loggedIn) {
       return (
         <button
@@ -74,21 +74,19 @@ function HomePage() {
 
   return (
     <div>
-      <h1 className="title">HomePage</h1>
-      <section className="blue">
-        <h1>Squadify</h1>
-        {CreateRoomButton(loggedIn)}
-        <input
-          type="text"
-          placeholder="Room Code"
-          onChange={(e) => setRoomCode(e.target.value)}
-        />
-        <button onClick={() => NavigateToRoom()}>Join Room</button>
-      </section>
-      <section className="red">
-        <h1>Title</h1>
-        <p>random text</p>
-      </section>
+      <div class="spacer layer1">
+        <section>
+          <h1 class="title">Squadify</h1>
+          {CreateRoomButton()}
+          <input
+            type="text"
+            placeholder="Room Code"
+            onChange={(e) => setRoomCode(e.target.value)}
+          />
+          <button onClick={() => NavigateToRoom()}>Join Room</button>
+        </section>
+      </div>
+      <div class="spacer layer2"></div>
     </div>
   );
 }
