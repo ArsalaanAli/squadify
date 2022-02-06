@@ -61,26 +61,59 @@ h1 {
 .buttonIcon {
   size: 2em;
 }
-.blue {
-  background: linear-gradient(
-    90deg,
-    rgba(254, 196, 0, 1) 38%,
-    rgba(241, 255, 0, 1) 100%
-  );
-}
+.createButton {
+  display: inline-flex;
+  height: 50px;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 0;
+  background: #151633;
+  border: 2px solid black;
 
-.red {
-  background: rgb(26, 28, 36);
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  cursor: pointer;
 }
-
-.yellow {
-  background: rgb(238, 255, 0);
+.createButtonText {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  color: #fff;
+  height: 100%;
 }
-
-.orange {
-  background: rgb(0, 0, 0);
+.createButton:hover {
+  background: black;
 }
-
+.createButton:active {
+  background: #1d7841;
+  border: 2px solid #1d7841;
+}
+input {
+  padding: 12px 40px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid white;
+  font-family: "Inter", sans-serif;
+  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  outline: none;
+  color: #fff;
+}
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+input:focus::placeholder {
+  color: transparent;
+}
 .spacer {
   aspect-ratio: 900/600;
   width: 100%;

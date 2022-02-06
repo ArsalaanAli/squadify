@@ -57,17 +57,22 @@ function HomePage() {
     }
   };
 
-  const CreateRoomButton = () => {
+  const HomePageForm = () => {
     console.log(loggedIn);
     if (loggedIn) {
       return (
-        <button
-          onClick={async () => {
-            await GetNewRoomCode();
-          }}
-        >
-          Create Room
-        </button>
+        <div>
+          <button
+            className="createButton"
+            onClick={async () => {
+              await GetNewRoomCode();
+            }}
+          >
+            <span className="createButtonText">Create Room</span>
+          </button>
+          <br />
+          <input placeholder="Enter Your Room Code"></input>
+        </div>
       );
     } else {
       return (
@@ -94,7 +99,7 @@ function HomePage() {
           Compare your Spotify stats with your squad to learn about your
           friends' music tastes
         </p>
-        {CreateRoomButton()}
+        {HomePageForm()}
       </div>
       <div className="spacer layer2"></div>
     </div>
