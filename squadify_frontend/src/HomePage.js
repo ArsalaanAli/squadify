@@ -33,8 +33,12 @@ function HomePage() {
       .then((resp) => setLoggedIn(resp));
   };
 
-  const SendToLogin = () => {
-    navigate("/Login");
+  const GetSpotifyURL = async () => {
+    await fetch("/api")
+      .then((response) => response.json())
+      .then((data) => {
+        window.location.href = data.url;
+      });
   };
 
   useEffect(() => {
@@ -69,13 +73,13 @@ function HomePage() {
       return (
         <button
           type="button"
-          class="spotifyButton"
-          onClick={() => SendToLogin()}
+          className="spotifyButton"
+          onClick={() => GetSpotifyURL()}
         >
-          <span class="buttonIcon">
+          <span className="buttonIcon">
             <FaSpotify size="2em" />
           </span>
-          <span class="buttonText">Login with Spotify</span>
+          <span className="buttonText">Login with Spotify</span>
         </button>
       );
     }
@@ -83,22 +87,16 @@ function HomePage() {
 
   return (
     <div>
-      <div class="spacer layer1">
-        <h1 class="title">SQUADIFY</h1>
+      <div className="spacer layer1">
+        <h1 className="title">SQUADIFY</h1>
 
-        <p class="subtitle">
-          Some random subtitle about comparing spotify stats
+        <p className="subtitle">
+          Compare your Spotify stats with your squad to learn about your
+          friends' music tastes
         </p>
         {CreateRoomButton()}
-        {/* {CreateRoomButton()}
-          <input
-            type="text"
-            placeholder="Room Code"
-            onChange={(e) => setRoomCode(e.target.value)}
-          />
-          <button onClick={() => NavigateToRoom()}>Join Room</button> */}
       </div>
-      <div class="spacer layer2"></div>
+      <div className="spacer layer2"></div>
     </div>
   );
 }
