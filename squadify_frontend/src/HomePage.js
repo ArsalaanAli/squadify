@@ -4,7 +4,7 @@ import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 function HomePage() {
   const [roomCode, setRoomCode] = useState("NONE");
-  const [loggedIn, setLoggedIn] = useState("asd");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   let navigate = useNavigate();
 
@@ -33,9 +33,8 @@ function HomePage() {
       .then((resp) => setLoggedIn(resp));
   };
 
-  const SendToLogin = (code) => {
+  const SendToLogin = () => {
     navigate("/Login");
-    //navigate("/Login", { state: { roomCode: code } }
   };
 
   useEffect(() => {
@@ -68,7 +67,16 @@ function HomePage() {
       );
     } else {
       return (
-        <button onClick={() => SendToLogin()}>Login To Create Room</button>
+        <button
+          type="button"
+          class="spotifyButton"
+          onClick={() => SendToLogin()}
+        >
+          <span class="buttonIcon">
+            <FaSpotify size="2em" />
+          </span>
+          <span class="buttonText">Login with Spotify</span>
+        </button>
       );
     }
   };
@@ -77,17 +85,11 @@ function HomePage() {
     <div>
       <div class="spacer layer1">
         <h1 class="title">SQUADIFY</h1>
-        <button class="spotifyButton">
-          <span class="buttonText">Hello</span>
-          <span class="buttonIcon">
-            <FaSpotify color="white" />
-          </span>
-        </button>
 
         <p class="subtitle">
           Some random subtitle about comparing spotify stats
         </p>
-
+        {CreateRoomButton()}
         {/* {CreateRoomButton()}
           <input
             type="text"
