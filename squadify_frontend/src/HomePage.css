@@ -1,18 +1,34 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Nunito:ital,wght@1,200&display=swap");
-
-section {
-  font-family: "Inter", sans-serif;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 450px;
-  padding: 100px 20vw;
-}
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Nunito:ital,wght@1,200&family=Poppins:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 .title {
-  font-size: 250%;
+  font-size: 650%;
+  position: absolute;
   text-align: center;
+  width: 100%;
+  top: 25%;
   color: #fff;
+  font-family: "Inter", sans-serif;
+  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
+}
+.subtitle {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: 45%;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
+}
+h1 {
+  margin: 0;
+}
+.spotifyButton {
+  display: inline-flex;
+  height: 50px;
+  padding: 0;
+  background: #19b558;
 }
 .blue {
   background: linear-gradient(
@@ -35,7 +51,7 @@ section {
 }
 
 .spacer {
-  aspect-ratio: 960/300;
+  aspect-ratio: 900/600;
   width: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -43,8 +59,8 @@ section {
 }
 
 .layer1 {
-  background-image: url("./assets/layered-waves-haikei2.svg");
+  background-image: url("./assets/Waves.svg");
 }
 .layer2 {
-  background-image: url("./assets/layered-waves-haikei.svg");
+  background-image: url("./assets/Waves2.svg");
 }

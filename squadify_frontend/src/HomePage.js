@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaSpotify } from "react-icons/fa";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 function HomePage() {
@@ -75,16 +76,25 @@ function HomePage() {
   return (
     <div>
       <div class="spacer layer1">
-        <section>
-          <h1 class="title">Squadify</h1>
-          {CreateRoomButton()}
+        <h1 class="title">SQUADIFY</h1>
+        <button class="spotifyButton">
+          <span class="buttonText">Hello</span>
+          <span class="buttonIcon">
+            <FaSpotify color="white" />
+          </span>
+        </button>
+
+        <p class="subtitle">
+          Some random subtitle about comparing spotify stats
+        </p>
+
+        {/* {CreateRoomButton()}
           <input
             type="text"
             placeholder="Room Code"
             onChange={(e) => setRoomCode(e.target.value)}
           />
-          <button onClick={() => NavigateToRoom()}>Join Room</button>
-        </section>
+          <button onClick={() => NavigateToRoom()}>Join Room</button> */}
       </div>
       <div class="spacer layer2"></div>
     </div>
