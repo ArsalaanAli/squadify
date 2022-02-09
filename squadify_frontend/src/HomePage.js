@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { FaSpotify } from "react-icons/fa";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 function HomePage() {
   const [roomCode, setRoomCode] = useState("NONE");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   let navigate = useNavigate();
 
@@ -43,11 +43,16 @@ function HomePage() {
 
   useEffect(() => {
     const spotifyCode = new URL(window.location.href).searchParams.get("code");
-    if (spotifyCode === null) {
-      checkLoggedIn();
-    } else {
+    if (!(spotifyCode === null)) {
       sendCode(spotifyCode);
       navigate("/");
+    }
+  });
+
+  useLayoutEffect(() => {
+    const spotifyCode = new URL(window.location.href).searchParams.get("code");
+    if (spotifyCode === null) {
+      checkLoggedIn();
     }
   }, [loggedIn]);
 
@@ -101,7 +106,7 @@ function HomePage() {
         </p>
         {HomePageForm()}
       </div>
-      <div className="spacer layer2"></div>
+      {/* <div className="spacer layer2"></div> */}
     </div>
   );
 }

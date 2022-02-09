@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Nunito:ital,wght@1,200&family=Poppins:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
 .title {
   font-size: 650%;
   position: absolute;
@@ -11,6 +12,7 @@
   font-family: "Nunito", sans-serif;
   font-family: "Poppins", sans-serif;
 }
+
 .subtitle {
   position: absolute;
   text-align: center;
@@ -21,9 +23,11 @@
   font-family: "Nunito", sans-serif;
   font-family: "Poppins", sans-serif;
 }
+
 h1 {
   margin: 0;
 }
+
 .spotifyButton {
   display: inline-flex;
   height: 50px;
@@ -35,7 +39,6 @@ h1 {
   padding: 0;
   background: #19b558;
   border: 2px solid #228f4e;
-
   border-radius: 5px;
   font-family: "Inter", sans-serif;
   font-family: "Nunito", sans-serif;
@@ -43,13 +46,16 @@ h1 {
   font-weight: 700;
   cursor: pointer;
 }
+
 .spotifyButton:hover {
   background: #228f4e;
 }
+
 .spotifyButton:active {
   background: #1d7841;
   border: 2px solid #1d7841;
 }
+
 .buttonIcon,
 .buttonText {
   display: inline-flex;
@@ -58,9 +64,11 @@ h1 {
   color: #fff;
   height: 100%;
 }
+
 .buttonIcon {
   size: 2em;
 }
+
 .createButton {
   display: inline-flex;
   height: 50px;
@@ -70,8 +78,8 @@ h1 {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   padding: 0;
-  background: #151633;
-  border: 2px solid black;
+  background: #343330;
+  border: 1px solid black;
 
   border-radius: 5px;
   font-family: "Inter", sans-serif;
@@ -80,51 +88,66 @@ h1 {
   font-weight: 300;
   cursor: pointer;
 }
+
 .createButtonText {
   display: inline-flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 30px;
   color: #fff;
   height: 100%;
 }
+
 .createButton:hover {
   background: black;
 }
+
 .createButton:active {
   background: #1d7841;
   border: 2px solid #1d7841;
 }
+
 input {
   padding: 12px 40px;
   background: none;
   border: none;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid black;
+  position: absolute;
+  text-align: center;
+  top: 70%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   font-family: "Inter", sans-serif;
   font-family: "Nunito", sans-serif;
   font-family: "Poppins", sans-serif;
+  font-weight: 700;
   text-align: center;
   outline: none;
   color: #fff;
 }
+
 ::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
   opacity: 1; /* Firefox */
 }
+
 input:focus::placeholder {
   color: transparent;
 }
+
 .spacer {
   aspect-ratio: 900/600;
   width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  height: 100%;
+  background-repeat: repeat-y;
+  background-size: contain;
 }
 
 .layer1 {
   background-image: url("./assets/Waves.svg");
+  background-size: cover;
 }
+
 .layer2 {
   background-image: url("./assets/Waves2.svg");
 }

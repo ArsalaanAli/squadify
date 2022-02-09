@@ -1,145 +1,86 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function RoomPage() {
+  //Router Variables
   let params = useParams();
-  const [roomData, setRoomData] = useState("");
-  const [spotifyData, setSpotifyData] = useState("");
-  const [userData, setUserData] = useState("");
-  const [loggedIn, setLoggedIn] = useState(null);
-  const [userDataInRoom, setUserDataInRoom] = useState(false);
-  const navigate = useNavigate();
-
-  const checkLoggedIn = async () => {
-    await fetch("/api/checkLoggedIn")
-      .then((resp) => resp.json())
-      .then((resp) => setLoggedIn(resp["state"]));
-  };
-
-  const checkUserDataInRoom = async () => {
-    await fetch("/api/getUserData")
-      .then((resp) => resp.json())
-      .then((resp) => setUserData(resp["userData"]));
-    if (userData["id"] in roomData["MemberId"]) {
-      setUserDataInRoom(true);
-    } else {
-      setUserDataInRoom(false);
+  //State Variables
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [roomData, setRoomData] = useState("none");
+  const [userData, setUserData] = useState("none");
+  const [spotifyData, setSpotifyData] = useState("none");
+  const firstUpdate = useRef(true);
+  //First useEffect checks logged in
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      await fetch("/api/checkLoggedIn")
+        .then((resp) => resp.json())
+        .then((resp) => setLoggedIn(resp["state"]));
+    };
+    checkLoggedIn();
+  });
+  //useEffect after login
+  //get roomData
+  useEffect(async () => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
     }
-  };
+    await GetSpotifyData();
+    await GetRoomData();
+    await GetUserData();
+  }, [loggedIn]);
+  //get userData
 
   useEffect(() => {
-    if (!(userData === "")) {
-      if (userData["id"] in roomData["MemberId"]) {
-        setUserDataInRoom(true);
-      } else {
-        setUserDataInRoom(false);
+    console.log(userData);
+    console.log(roomData);
+    if (!(userData == "none" || roomData == "none")) {
+      if (roomData["MemberData"] === true) {
+        roomData["MemberData"] = {};
+        roomData["MemberData"][userData.id] = spotifyData;
+        console.log(roomData);
       }
     }
   }, [userData]);
 
-  const SendUserDataToDatabase = async () => {
-    console.log(params.roomCode);
-    await fetch("/api/sendUserDataToDatabase", {
+  //Recives room data
+  const GetRoomData = async () => {
+    await fetch("/api/getRoomData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        roomCode: params.RoomCode,
-        userData: userData,
-        spotifyData: spotifyData,
-      }),
-    }).then((resp) => console.log(resp));
+      body: JSON.stringify({ RoomCode: params.RoomCode }),
+    }).then((response) =>
+      response.json().then((data) => {
+        console.log(data);
+        setRoomData(data);
+      })
+    );
   };
 
-  const AddUserDataToRoom = async () => {
-    const oldRoomData = roomData;
-    oldRoomData["MemberId"][userData["id"]] = true;
-    oldRoomData["MemberData"][userData["display_name"]] = spotifyData;
-    setRoomData(oldRoomData);
-    setUserDataInRoom(true);
-    SendUserDataToDatabase();
+  const GetUserData = async () => {
+    await fetch("/api/getUserData")
+      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log(resp);
+        setUserData(resp);
+      });
   };
 
   const GetSpotifyData = async () => {
     await fetch("/api/getSpotifyData")
       .then((response) => response.json())
       .then((data) => {
+        console.log(data["spotifyData"]);
         setSpotifyData(data["spotifyData"]);
       });
   };
 
-  const SendToLogin = (code) => {
-    navigate("/Login");
-    //navigate("/Login", { state: { roomCode: code } }
-  };
-
-  useEffect(() => {
-    if (roomData === "") {
-      fetch("/api/getRoomData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ RoomCode: params.RoomCode }),
-      }).then((response) =>
-        response.json().then((data) => {
-          setRoomData(data["roomData"]);
-        })
-      );
-    } else {
-      checkUserDataInRoom();
-    }
-    checkLoggedIn();
-  }, [roomData]);
-
-  useEffect(() => {
-    if (!(spotifyData === "")) AddUserDataToRoom();
-  }, [spotifyData]);
-
-  //render conditions
-  const roomDataDisplayed = () => {
-    if (roomData === "") {
-      return <h2>loading data...</h2>;
-    }
-    return (
-      <h2>
-        {Object.keys(roomData.MemberData).map((key, i) => (
-          <p key={i}>{key}</p>
-        ))}
-      </h2>
-    );
-  };
-  const addMemberButton = (userDataInRoom) => {
-    if (userDataInRoom) {
-      return (
-        <button
-          onClick={() => {
-            navigate("/Results/" + params.RoomCode, {
-              state: { roomData: roomData },
-            });
-          }}
-        >
-          View Squadify Results
-        </button>
-      );
-    }
-    return (
-      <button
-        onClick={async () => {
-          await GetSpotifyData();
-        }}
-      >
-        Add Your Data
-      </button>
-    );
-  };
   return (
     <div>
-      <h1>Room: {params.RoomCode}</h1>
-      {/* <p>{JSON.stringify(spotifyData)}</p> */}
-      {roomDataDisplayed(roomData)}
-      {addMemberButton(userDataInRoom)}
+      <h1>hello{loggedIn.toString()}</h1>
     </div>
   );
 }

@@ -37,8 +37,8 @@ def LoggedIn():
 def GetUserData():
     if not session.get("userData"):
         userData = spotifyAuth.GetUserData()
-        session["userData"] = {"userData" : userData}
-        return {"userData": userData}
+        session["userData"] = userData
+        return userData
     return session["userData"]
 
 @app.route('/api/sendUserDataToDatabase', methods=["POST"])
@@ -53,8 +53,8 @@ def sendDataToDatabase():
 def GetSpotifyData():
     if not session.get("topArtists"):
         userData = spotifyAuth.GetTopArtists()
-        session["topArtists"] = {"spotifyData": userData}
-        return {"spotifyData": userData}
+        session["topArtists"] = userData
+        return userData
     return session["topArtists"]
 
 @app.route('/api/createRoom')
@@ -69,7 +69,8 @@ def CreateRoom():
 def GetMembers():
     recievedCode = request.get_json()
     data = db.reference("/Rooms/" + recievedCode["RoomCode"]).get()
-    return {"roomData" : data}
+    print(data)
+    return data
 
 @app.route('/api/analyzeRoomData', methods=["POST"])
 def AnalyzeRoomData():

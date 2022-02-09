@@ -19,6 +19,9 @@ def CreateNewRoom(roomsDB, allRoomsData):
         newRoomCode = GenerateRoomCode()
         if newRoomCode not in allRoomsData:
             roomsDB.update({newRoomCode : True})
+            ref = roomsDB.child(newRoomCode)
+            ref.update({"MemberData": True})
+            ref.update({"MemberId": True})
             return newRoomCode
 
 def CheckRoomExists(roomCode, allRoomsData):
