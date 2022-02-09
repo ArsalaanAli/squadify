@@ -33,7 +33,8 @@ def CheckRoomExists(roomCode, allRoomsData):
 #currentRoomData = currentRoomDB.get()
 #print(currentRoomData)
 def AddUserToRoom(userData, currentRoomMemberData, currentRoomMemberId):
-    currentRoomMemberData.update({userData["userData"]["display_name"] : userData["spotifyData"]})#DATA CANT PARSE??
+    print(userData)
+    currentRoomMemberData.update({userData["userData"]["id"] : userData["spotifyData"]})#DATA CANT PARSE??
     currentRoomMemberId.update({userData["userData"]["id"] : userData["userData"]["display_name"]})
     return True
 #CreateNewRoom(roomsDB, allRoomsData)

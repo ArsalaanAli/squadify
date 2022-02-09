@@ -9,7 +9,9 @@ export default function RoomPage() {
   const [roomData, setRoomData] = useState("none");
   const [userData, setUserData] = useState("none");
   const [spotifyData, setSpotifyData] = useState("none");
+  const [userInRoom, setUserInRoom] = useState(false);
   const firstUpdate = useRef(true);
+  const firstUser = useRef(false);
   //First useEffect checks logged in
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -20,26 +22,34 @@ export default function RoomPage() {
     checkLoggedIn();
   });
   //useEffect after login
-  //get roomData
-  useEffect(async () => {
+  //get all data
+  useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
     }
-    await GetSpotifyData();
-    await GetRoomData();
-    await GetUserData();
+    const GetData = async () => {
+      await GetSpotifyData();
+      await GetRoomData();
+      await GetUserData();
+    };
+    GetData();
   }, [loggedIn]);
   //get userData
 
+  //useEffect checks if user is in room
   useEffect(() => {
     console.log(userData);
     console.log(roomData);
-    if (!(userData == "none" || roomData == "none")) {
+
+    if (!(userData === "none" || roomData === "none")) {
+      //if user created the room for the first time
       if (roomData["MemberData"] === true) {
-        roomData["MemberData"] = {};
-        roomData["MemberData"][userData.id] = spotifyData;
-        console.log(roomData);
+        firstUser.current = true;
+      } else {
+        if (userData.id in roomData["MemberData"]) {
+          setUserInRoom(true);
+        }
       }
     }
   }, [userData]);
@@ -73,14 +83,51 @@ export default function RoomPage() {
     await fetch("/api/getSpotifyData")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["spotifyData"]);
-        setSpotifyData(data["spotifyData"]);
+        console.log(data);
+        setSpotifyData(data);
       });
+  };
+
+  const AddUserDataToRoom = () => {
+    if (firstUser.current) {
+      roomData["MemberData"] = {};
+      roomData["MemberId"] = {};
+    }
+    roomData["MemberData"][userData.id] = spotifyData;
+    roomData["MemberId"][userData.id] = userData.display_name;
+    sendUserDataToDatabase();
+  };
+
+  const sendUserDataToDatabase = async () => {
+    console.log(spotifyData);
+    await fetch("/api/sendUserDataToDatabase", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomCode: params.RoomCode,
+        userData: userData,
+        spotifyData: spotifyData,
+      }),
+    }).then((resp) => console.log(resp));
+  };
+
+  const JoinRoomButton = () => {
+    console.log(userInRoom);
+    if (userInRoom) {
+      return;
+    } else {
+      return (
+        <button onClick={() => sendUserDataToDatabase()}>Join Room</button>
+      );
+    }
   };
 
   return (
     <div>
       <h1>hello{loggedIn.toString()}</h1>
+      {JoinRoomButton()}
     </div>
   );
 }

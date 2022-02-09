@@ -35,6 +35,7 @@ export default function RoomPage() {
     } else {
       setUserDataInRoom(false);
     }
+    SendUserDataToDatabase();
   };
 
   const SendUserDataToDatabase = async () => {
